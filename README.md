@@ -12,7 +12,7 @@ Tự động cài đặt proxy Squid 3 trên hệ điều hành linux sau.
 
 ## Cài đặt Squid
 
-Để cài đặt, hãy chạy tập lệnh
+Để cài đặt, hãy chạy tập lệnh:
 wget https://raw.githubusercontent.com/fviatool/squid-proxy/main/squid3-install.sh -O Squid3-install.sh
 sudo bash ink3-install.sh
 
@@ -37,8 +37,7 @@ LƯU Ý: Điều này chỉ cần thiết nếu bạn có nhiều IP trên máy 
 
 Trước khi có thể định cấu hình mực để sử dụng nhiều địa chỉ IP, bạn cần thêm IP vào máy chủ của mình và bạn sẽ có thể kết nối với máy chủ bằng các IP này.
 
-Sau khi thêm IP vào máy chủ của bạn, bạn có thể định cấu hình nó để sử dụng với proxy mực bằng cách chạy lệnh sau
-
+Sau khi thêm IP vào máy chủ của bạn, bạn có thể định cấu hình nó để sử dụng với proxy mực bằng cách chạy lệnh sau: 
 wget https://raw.githubusercontent.com/fviatool/squid-proxy/main/squid-conf-ip.sh
 sudo bash mực-conf-ip.sh
 
