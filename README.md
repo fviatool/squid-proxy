@@ -13,9 +13,11 @@ Tự động cài đặt proxy Squid 3 trên hệ điều hành linux sau.
 ## Cài đặt Squid
 
 Để cài đặt, hãy chạy tập lệnh:
-wget https://raw.githubusercontent.com/fviatool/squid-proxy/main/squid3-install.sh -O squid3-install.sh
-sudo bash squid3-install.sh
+wget https://raw.githubusercontent.com/fviatool/squid-proxy/main/squid3-install.sh
 
+chmod 755 squid3-install.sh
+
+sudo ./squid3-install.sh
 # Tạo người dùng proxy
 
 sudo /usr/bin/htpasswd -b -c /etc/squid/passwd USERNAME_HERE PASSWORD_HERE
