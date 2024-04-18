@@ -9,6 +9,7 @@ chmod 755 /usr/local/bin/squid-uninstall
 
 /usr/bin/wget -q --no-check-certificate -O /usr/local/bin/squid-add-user https://raw.githubusercontent.com/fviatool/squid-proxy/main/squid-add-user.sh
 chmod 755 /usr/local/bin/squid-add-userif [ ! -f /usr/local/bin/bm-find-os ]; then
+
     echo "/usr/local/bin/bm-find-os không tìm thấy"
     exit 1
 fi
