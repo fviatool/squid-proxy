@@ -8,20 +8,17 @@ chmod 755 /usr/local/bin/bm-find-os
 chmod 755 /usr/local/bin/squid-uninstall
 
 /usr/bin/wget -q --no-check-certificate -O /usr/local/bin/squid-add-user https://raw.githubusercontent.com/fviatool/squid-proxy/main/squid-add-user.sh
-chmod 755 /usr/local/bin/squid-add-userif [ ! -f /usr/local/bin/bm-find-os ]; then
+chmod 755 /usr/local/bin/squid-add-user
 
+# Kiểm tra và cài đặt Squid Proxy
+if [ ! -f /usr/local/bin/bm-find-os ]; then
     echo "/usr/local/bin/bm-find-os không tìm thấy"
     exit 1
 fi
 
 BM_OS=$(/usr/local/bin/bm-find-os)
 
-if [ $BM_OS == "ERROR" ]; then
-    echo "HỆ ĐIỀU HÀNH KHÔNG ĐƯỢC HỖ TRỢ.\n"
-    exit 1;
-fi
-
-if [ $BM_OS == "ubuntu2204" ]; then
+if [ $BM_OS == "ubuntu" ]; then
     /usr/bin/apt update > /dev/null 2>&1
     /usr/bin/apt -y install squid > /dev/null 2>&1
     mv /etc/squid/squid.conf /etc/squid/squid.conf.bak
@@ -33,7 +30,7 @@ if [ $BM_OS == "ubuntu2204" ]; then
     fi
     systemctl restart squid
     systemctl enable squid
-elif [ $BM_OS == "debian11" ] || [ $BM_OS == "debian12" ]; then
+elif [ $BM_OS == "debian" ] || [ $BM_OS == "debian12" ]; then
     /bin/rm -rf /etc/squid
     /usr/bin/apt update > /dev/null 2>&1
     /usr/bin/apt -y install squid > /dev/null 2>&1
@@ -52,6 +49,7 @@ elif [ $BM_OS == "centos7" ] || [ $BM_OS == "centos8" ] || [ $BM_OS == "almalinu
     systemctl enable squid
 fi
 
+# Thông báo hoàn thành
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
 NC='\033[0m'
