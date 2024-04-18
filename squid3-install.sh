@@ -10,14 +10,16 @@ chmod 755 /usr/local/bin/squid-uninstall
 /usr/bin/wget -q --no-check-certificate -O /usr/local/bin/squid-add-user https://raw.githubusercontent.com/fviatool/squid-proxy/main/squid-add-user.sh
 chmod 755 /usr/local/bin/squid-add-user
 
-# Kiểm tra và cài đặt Squid Proxy
+# Kiểm tra xem script bm-find-os đã được tải xuống chưa
 if [ ! -f /usr/local/bin/bm-find-os ]; then
     echo "/usr/local/bin/bm-find-os không tìm thấy"
     exit 1
 fi
 
+# Lấy thông tin hệ điều hành
 BM_OS=$(/usr/local/bin/bm-find-os)
 
+# Cài đặt Squid Proxy tùy theo hệ điều hành
 if [ $BM_OS == "ubuntu" ]; then
     /usr/bin/apt update > /dev/null 2>&1
     /usr/bin/apt -y install squid > /dev/null 2>&1
@@ -49,7 +51,6 @@ elif [ $BM_OS == "centos7" ] || [ $BM_OS == "centos8" ] || [ $BM_OS == "almalinu
     systemctl enable squid
 fi
 
-# Thông báo hoàn thành
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
 NC='\033[0m'
