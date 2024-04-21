@@ -1,20 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 echo "=========== Install Required Packages ================="
 yum -y groupinstall 'Development Tools'
 yum install -y perl gcc autoconf automake make sudo wget libxml2-devel libcap-devel libtool-ltdl-devel install gcc-c++
-yum -y install python3 python3-pip
-
-# Install pip if not installed
-if ! command -v pip3 &> /dev/null
-then
-    echo "Pip not found, installing pip..."
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    python3 get-pip.py
-    rm get-pip.py
-else
-    echo "Pip is already installed."
-fi
+yum -y install python3 pip
 
 echo "=========== Re Compile Squid With Custom Configuration Params ================="
 cd /opt
@@ -83,15 +72,15 @@ cd squid-4.17
 --without-nettle
 
 make && make install
-ulimit -n 65536 
-ulimit -a
+ulimit -n 65536
 useradd squid
 chmod 777 /var/log/squid/
 systemctl disable firewalld
+
 cd /opt/youni_ipv4_to_ipv6
 
 echo "=========== Creating Python Script ================="
-cat <<EOF > /opt/youni_ipv4_to_ipv6/gen_squid_conf.py
+cat <<EOF > gen_squid_conf.py
 import os
 import random
 import socket
@@ -184,15 +173,15 @@ http_access allow all'''
         config = config + '\n\n\nhttp_port ' + str(random_port) + '\nacl p' + str(random_port) + ' localport ' + str(random_port) + '\ntcp_outgoing_address ' + str(ip) + ' p' + str(random_port)
         proxy_list = proxy_list + '\n'+ str(external_ip) + ':' + str(random_port)
 
-    config_file = open((os.path.dirname(os.path.abspath(__file__)))+'/squid_config.txt', 'w')
+    config_file = open('/opt/youni_ipv4_to_ipv6/squid_config.txt', 'w')
     config_file.write(config)
     config_file.close()
 
-    bash_ipadd_file = open((os.path.dirname(os.path.abspath(__file__)))+'/squid_ipaddr.sh', 'w')
+    bash_ipadd_file = open('/opt/youni_ipv4_to_ipv6/squid_ipaddr.sh', 'w')
     bash_ipadd_file.write(bash_ipadd)
     bash_ipadd_file.close()
 
-    external_ipfile = open((os.path.dirname(os.path.abspath(__file__)))+'/squid_proxy_list.txt', 'w')
+    external_ipfile = open('/opt/youni_ipv4_to_ipv6/squid_proxy_list.txt', 'w')
     external_ipfile.write(proxy_list)
     external_ipfile.close()
 
@@ -200,4 +189,5 @@ if __name__ == "__main__":
     genSquidV4()
 EOF
 
-python3 gen_squid_conf.py
+chmod +x gen_squid_conf.py
+./gen_squid_conf.py
